@@ -14,10 +14,75 @@
 > **Jev + a writer LLM + deterministic code.**
 > Jev cannot write summaries or answers. Your host agent supplies the LLM.
 
-| Code & search | Jev · OpenRouter | Your LLM |
-| :--- | :--- | :--- |
-| Files, hashes, candidates | Route, rank, deduplicate | Read, extract, summarize |
-| Links, revisions, index | Verify, flag conflicts, abstain | Draft, synthesize, explain |
+## Same wiki idea. Different division of work.
+
+```text
+KARPATHY'S LLM WIKI PATTERN              JEV WIKI
+
+Source + wiki + schema                 Source + wiki + skill
+           │                                      │
+           ▼                                      ▼
+┌───────────────────────────┐          ┌───────────────────────────┐
+│ LLM agent orchestrates    │          │ HOST LLM                  │
+│                           │          │ Read · extract new claims │
+│ Read and understand       │          └─────────────┬─────────────┘
+│ Find relevant pages       │                        ▼
+│ Decide what to update     │          ┌───────────────────────────┐
+│ Notice contradictions     │          │ CODE / SEARCH             │
+│ Write summaries / answers │          │ Hash · shortlist pages    │
+│ Maintain links and index  │          └─────────────┬─────────────┘
+│ Coordinate wiki upkeep    │                        ▼
+└─────────────┬─────────────┘          ┌───────────────────────────┐
+              │                        │ JEV                       │
+              │                        │ Where to edit? New page?  │
+              │                        │ Duplicate? Conflict?      │
+              │                        │ Relevant? Enough evidence?│
+              │                        └─────────────┬─────────────┘
+              │                                      ▼
+              │                        ┌───────────────────────────┐
+              │                        │ HOST LLM                  │
+              │                        │ Summarize · revise · answer│
+              │                        └─────────────┬─────────────┘
+              │                                      ▼
+              │                        ┌───────────────────────────┐
+              │                        │ JEV → CODE                │
+              │                        │ Verify → publish → index  │
+              │                        └─────────────┬─────────────┘
+              ▼                                      ▼
+       Markdown wiki                          Markdown wiki
+```
+
+Simplified responsibility comparison with [Karpathy's LLM Wiki pattern](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f), which also allows search and custom tools. This is not a performance benchmark.
+
+| Work | Jev Wiki owner |
+| :--- | :--- |
+| Where to edit? Duplicate? Conflict? Enough evidence? | **Jev** |
+| New concepts, summaries, synthesis, final answers | **Host LLM** |
+| Retrieval, hashes, links, revisions, index | **Code** |
+
+### One source → several page decisions
+
+```text
+New policy: “Refunds within 30 days”
+                   │
+          CODE: shortlist pages
+                   │
+          JEV: one shared request
+           ┌───────┼──────────────┐
+           ▼       ▼              ▼
+      Policy     FAQ           Billing
+      update     conflict      keep
+           │       │              └── No edit
+           ▼       ▼
+      HOST LLM: draft / investigate
+                   │
+          JEV: verify source support
+                   │
+          CODE: publish each page
+```
+
+Illustrative plan, not a captured model result. A conflict requires review before editing.
+[What moves to Jev?](references/technical-design.md#what-moves-to-jev) · [Full ingest diagram](references/technical-design.md#the-original-proposal-llm--jev-ingestion) · [Batched page decisions](references/technical-design.md#fan-out-batch-the-judgments-then-write)
 
 ## Architecture
 
