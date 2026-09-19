@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Offline full-rescan estimate; assumptions and implementation limits in README."""
+"""Offline full-rescan estimate; full-rescan planning scenario; not measured runtime usage."""
 import json
 from decimal import Decimal as D, getcontext, ROUND_HALF_UP
 from pathlib import Path
@@ -61,34 +61,56 @@ def chart():
     """Optional documentation build; matplotlib is not a runtime dependency."""
     import matplotlib
     matplotlib.use('Agg')
+    matplotlib.rcParams['text.parse_math'] = False
     import matplotlib.pyplot as plt
-    from matplotlib.ticker import FuncFormatter
-    fig, axes = plt.subplots(1, 2, figsize=(14, 6.5))
+    from matplotlib.ticker import FuncFormatter, MaxNLocator
+    writer = next(p for p in PRICES['endpoints'] if p['model'] == 'qwen/qwen3.8-flash')
+    jev = PRICES['endpoints'][-1]
+    initial = estimate(writer, jev, 1000, 0)
+    fig, axes = plt.subplots(2, 3, figsize=(15, 9))
     fig.patch.set_facecolor('#fafaf7')
-    for ax, writer, name in zip(axes, PRICES['endpoints'][:-1], ['DeepSeek V4.1 Flash', 'Qwen3.8 Flash']):
-        ax.set_facecolor('#fafaf7')
-        data = dict(rows(writer))
-        keys = ['Initial 1,000','Month 1 +100','Month 1 +500','Month 1 +1,000','Month 12 +1,000']
-        for offset, key, label, color in [(-.16,'llm_only','LLM only','#778397'),(.16,'llm_jev','Same LLM + Jev','#178472')]:
-            values = [data[k][key] for k in keys]
-            bars=ax.barh([i+offset for i in range(len(keys))],[float(v) for v in values],height=.28,color=color,label=label,zorder=3)
-            ax.bar_label(bars,labels=[f'${v:,.2f}' for v in values],padding=5,fontsize=10)
-        ax.set_yticks(range(len(keys)),keys,fontsize=10)
-        ax.invert_yaxis();ax.set_xlim(0,1000)
-        ax.xaxis.set_major_formatter(FuncFormatter(lambda v,_:f'${v:,.0f}'))
-        ax.grid(axis='x',alpha=.15,zorder=0)
-        ax.spines[['top','right','left']].set_visible(False)
-        ax.set_title(name,loc='left',fontsize=14,fontweight='bold',pad=18)
-        ax.set_xlabel('Estimated API cost, USD')
-    handles,labels=axes[0].get_legend_handles_labels()
-    fig.legend(handles,labels,loc='upper left',bbox_to_anchor=(.04,.91),ncol=2,frameon=False)
-    fig.suptitle('Read the whole domain again on every arrival',x=.045,y=.98,ha='left',fontsize=22,fontweight='bold')
-    fig.text(.045,.035,'1,000 starting documents / 5 domains. Corpus grows each month; 2,000 retained tokens per document.\n'
-             'LLM scan batches: 12 documents; Jev: 2. Both include writing and verification. Hypothetical rescan workflow, not shipped runtime.\n'
-             'OpenRouter snapshot: 2026-09-20 KST. No cache discounts. Excludes queries, extra retries and infrastructure.',fontsize=10,linespacing=1.5)
-    fig.subplots_adjust(left=.15,right=.94,top=.80,bottom=.20,wspace=.6)
+    months = list(range(1, 13))
+    for col, added in enumerate((100, 500, 1000)):
+        results = [estimate(writer, jev, added, 1000 + (m-1)*added) for m in months]
+        for key, label, color, style in [('llm_only','Qwen only','#69788f','--'),
+                                         ('llm_jev','Qwen + Jev','#11836f','-')]:
+            monthly = [float(r[key]) for r in results]
+            running = initial[key]
+            cumulative = []
+            for result in results:
+                running += result[key]
+                cumulative.append(float(running))
+            for row, values in enumerate((monthly,cumulative)):
+                ax=axes[row,col]
+                ax.plot(months,values,color=color,linestyle=style,marker='o',markersize=3,
+                        linewidth=2.5,label=label)
+                ax.annotate(f'${values[-1]:,.0f}',(12,values[-1]),xytext=(6,0),
+                            textcoords='offset points',va='center',color=color,fontweight='bold',fontsize=10)
+        for row in (0,1):
+            ax=axes[row,col];ax.set_facecolor('#fafaf7')
+            ax.set_xlim(.6,15);ax.set_ylim(bottom=0)
+            ax.set_xticks([1,3,6,9,12]);ax.set_xlabel('Month')
+            ax.yaxis.set_major_formatter(FuncFormatter(lambda v,_:f'${v:,.0f}'))
+            ax.yaxis.set_major_locator(MaxNLocator(nbins=5))
+            ax.grid(alpha=.15);ax.spines[['top','right']].set_visible(False)
+            ax.set_title(f'+{added:,} documents / month',loc='left',fontweight='bold',pad=12)
+        axes[0,col].set_ylabel('This month · USD')
+        axes[1,col].set_ylabel('Cumulative incl. setup · USD')
+    handles,labels=axes[0,0].get_legend_handles_labels()
+    fig.legend(handles,labels,loc='upper left',bbox_to_anchor=(.055,.935),ncol=2,frameon=False,fontsize=12)
+    fig.suptitle('Qwen alone or Qwen + Jev: the full first year',x=.06,y=.985,
+                 ha='left',fontsize=23,fontweight='bold',color='#20322e')
+    fig.text(.06,.865,'MONTHLY BILL  /  12 points per line; vertical scales differ by scenario',fontsize=11,fontweight='bold',color='#47554f')
+    fig.text(.06,.465,'RUNNING TOTAL  /  includes the initial build: Qwen $39.64 · Qwen + Jev $17.07',fontsize=11,fontweight='bold',color='#47554f')
+    fig.text(.06,.025,'Full-domain rescan per arrival · 1,000 starting documents · 5 domains · 2,000 retained tokens/document\n'
+             'Estimated API costs, not measured bills. OpenRouter snapshot: Sep 20, 2026 KST. No cache discounts.\n'
+             'Includes writing + checks; excludes queries and infrastructure. Hypothetical rescan workflow, not runtime capacity.',
+             fontsize=10,color='#47554f',linespacing=1.5)
+    fig.subplots_adjust(left=.07,right=.96,top=.81,bottom=.14,wspace=.32,hspace=.60)
     for ext in ('png','svg'):
         fig.savefig(ROOT/'assets'/f'cost-comparison.{ext}',dpi=160,facecolor=fig.get_facecolor())
+    svg = ROOT/'assets'/'cost-comparison.svg'
+    svg.write_text('\n'.join(line.rstrip() for line in svg.read_text().splitlines()) + '\n')
     plt.close(fig)
 
 
