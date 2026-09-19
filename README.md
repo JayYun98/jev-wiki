@@ -5,7 +5,7 @@
 
 **A small wiki skill. A clear division of intelligence.**
 
-[Get started](#get-started) · [Architecture](#architecture) · [Operations](references/operations.md) · [Evidence](references/evaluation.json)
+[Get started](#get-started) · [Architecture](#architecture) · [Technical design](references/technical-design.md) · [Operations](references/operations.md) · [Evidence](references/evaluation.json)
 
 </div>
 
@@ -27,6 +27,8 @@
 OPEN WORLD                  BOUNDED DECISIONS                DURABLE MEMORY
 LLM discovers knowledge  →  Jev selects the next action  →  Code commits Markdown
 ```
+
+**[Read the technical design →](references/technical-design.md)** Ingest planning, retrieval, decision gates, storage, and extension boundaries.
 
 ## Get started
 
