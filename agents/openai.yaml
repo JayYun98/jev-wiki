@@ -1,0 +1,4 @@
+interface:
+  display_name: "Jev Wiki"
+  short_description: "Source-backed Markdown memory with Jev decisions"
+  default_prompt: "Use $jev-wiki to ingest these sources into a Markdown wiki, verify drafts, and answer questions with citations."

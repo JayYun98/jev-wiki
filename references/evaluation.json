@@ -1,0 +1,740 @@
+{
+  "timestamp": "2026-09-19T22:55:11.816750+00:00",
+  "budget_usd": 0.04,
+  "reported_cost_usd": 0.000347172,
+  "paid_calls": 10,
+  "checks": [
+    {
+      "name": "ingest_new_source",
+      "passed": true
+    },
+    {
+      "name": "publish_supported_page",
+      "passed": true
+    },
+    {
+      "name": "exact_duplicate_without_inference",
+      "passed": true
+    },
+    {
+      "name": "retrieve_answerable_question",
+      "passed": true
+    },
+    {
+      "name": "abstain_on_missing_evidence",
+      "passed": true
+    },
+    {
+      "name": "reject_unsupported_draft",
+      "passed": true
+    },
+    {
+      "name": "semantic_duplicate",
+      "passed": true
+    },
+    {
+      "name": "untrusted_instructions_abstain",
+      "passed": true
+    },
+    {
+      "name": "pair_english",
+      "passed": true
+    },
+    {
+      "name": "pair_korean",
+      "passed": true
+    },
+    {
+      "name": "pair_consistent",
+      "passed": true
+    }
+  ],
+  "requests": [
+    {
+      "operation": "ingest",
+      "request": "deb55ca4de8ae27d668d1d72c7c3a9d9b3ad22a987692879f180604d30d99afa",
+      "status": "charged",
+      "cost": 3.2088e-05,
+      "model": "typesafe/jev-1.13-20260917",
+      "latency_ms": 494,
+      "input_tokens": 764
+    },
+    {
+      "operation": "verify",
+      "request": "3d2b95cfff3b8561d53b8aa2f59ff8d443cdb662b98dce8157b87a6b14a68dc0",
+      "status": "charged",
+      "cost": 2.667e-05,
+      "model": "typesafe/jev-1.13-20260917",
+      "latency_ms": 282,
+      "input_tokens": 635
+    },
+    {
+      "operation": "query",
+      "request": "d4c1f73da8f9087b490413ddd7201864c57b3c7a80f6c2e9e34a57abdf41ff86",
+      "status": "charged",
+      "cost": 2.667e-05,
+      "model": "typesafe/jev-1.13-20260917",
+      "latency_ms": 376,
+      "input_tokens": 635
+    },
+    {
+      "operation": "query",
+      "request": "6bff10e579e96d6d47ecab92fc93c96ca31e81bfd442c2946d3741adaa205a07",
+      "status": "charged",
+      "cost": 2.667e-05,
+      "model": "typesafe/jev-1.13-20260917",
+      "latency_ms": 292,
+      "input_tokens": 635
+    },
+    {
+      "operation": "verify",
+      "request": "48b3435343a310204e9a5e1e22f945fc853863d8579998a920203fbadbeda229",
+      "status": "charged",
+      "cost": 2.541e-05,
+      "model": "typesafe/jev-1.13-20260917",
+      "latency_ms": 345,
+      "input_tokens": 605
+    },
+    {
+      "operation": "ingest",
+      "request": "56d78e0e05f73a5ca5ca7056a2d69f8333eac5c4513c55b59168891ddc18bd44",
+      "status": "charged",
+      "cost": 4.8888e-05,
+      "model": "typesafe/jev-1.13-20260917",
+      "latency_ms": 444,
+      "input_tokens": 1164
+    },
+    {
+      "operation": "ingest",
+      "request": "116664de1555b82dc2a1f1be053d46fad9cef770a2b59821001504ed0dc0d5ca",
+      "status": "charged",
+      "cost": 4.8342e-05,
+      "model": "typesafe/jev-1.13-20260917",
+      "latency_ms": 302,
+      "input_tokens": 1151
+    },
+    {
+      "operation": "lint",
+      "request": "a5d38543ae2bde92c50151f90ddbc24b8a786be65c58f7c5e9ca9ce8ac67e9d8",
+      "status": "charged",
+      "cost": 3.7506e-05,
+      "model": "typesafe/jev-1.13-20260917",
+      "latency_ms": 359,
+      "input_tokens": 893
+    },
+    {
+      "operation": "lint",
+      "request": "b1a7801db406b514d08d9ee428fff8310a3b502c3b611db11e240dd70f6547ac",
+      "status": "charged",
+      "cost": 3.8514e-05,
+      "model": "typesafe/jev-1.13-20260917",
+      "latency_ms": 265,
+      "input_tokens": 917
+    },
+    {
+      "operation": "lint",
+      "request": "d257b40082a6b5ddc05cb3163b69c5bee3b28004fb6210326784101602cb3ba0",
+      "status": "charged",
+      "cost": 3.6414e-05,
+      "model": "typesafe/jev-1.13-20260917",
+      "latency_ms": 250,
+      "input_tokens": 867
+    }
+  ],
+  "outcomes": [
+    {
+      "name": "ingest_new_source",
+      "result": {
+        "status": "planned",
+        "route": "create",
+        "target": null,
+        "source": "855736a95459b6e9f50bc94ec9ace4171a87cfef3c72b500c89a9ec7e0d67e89",
+        "source_path": "sources/855736a95459b6e9f50bc94ec9ace4171a87cfef3c72b500c89a9ec7e0d67e89.md",
+        "candidates": [],
+        "coverage": {
+          "total_pages": 0,
+          "selected_pages": 0,
+          "complete": true,
+          "method": "lexical overlap, full pages; no truncation"
+        },
+        "page_type": {
+          "type": "choice",
+          "choice": "entity",
+          "probabilities": {
+            "concept": 0,
+            "entity": 0.99,
+            "synthesis": 0,
+            "source": 0.01
+          },
+          "confidence": 0.99
+        },
+        "page_actions": [],
+        "writer_role": "writer",
+        "decisions": {
+          "injection": {
+            "type": "noul",
+            "noul": 0.02
+          },
+          "page_type": {
+            "type": "choice",
+            "choice": "entity",
+            "probabilities": {
+              "concept": 0,
+              "entity": 0.99,
+              "synthesis": 0,
+              "source": 0.01
+            },
+            "confidence": 0.99
+          },
+          "route": {
+            "type": "choice",
+            "choice": "create",
+            "probabilities": {
+              "update": 0.02,
+              "review": 0.01,
+              "skip": 0.04,
+              "create": 0.93,
+              "duplicate": 0
+            },
+            "confidence": 0.91
+          },
+          "target": {
+            "type": "choice",
+            "choice": "none",
+            "probabilities": {
+              "none": 1
+            },
+            "confidence": 1
+          }
+        },
+        "next": "The host agent drafts Markdown, then calls publish; this command never edits wiki pages"
+      }
+    },
+    {
+      "name": "publish_supported_page",
+      "result": {
+        "status": "published",
+        "page": "orbit-team",
+        "revision": "739b96d94102004364e6c825650ed2d3e950f2553287b4751f14ee7f76808445",
+        "sources": [
+          "855736a95459b6e9f50bc94ec9ace4171a87cfef3c72b500c89a9ec7e0d67e89"
+        ],
+        "verification": {
+          "status": "accepted",
+          "decisions": {
+            "injection": {
+              "type": "noul",
+              "noul": 0.02
+            },
+            "support": {
+              "type": "choice",
+              "choice": "supported",
+              "probabilities": {
+                "contradicted": 0,
+                "supported": 1,
+                "insufficient_evidence": 0
+              },
+              "confidence": 1
+            }
+          },
+          "note": "Probabilistic source-grounding check, not independent truth verification"
+        }
+      }
+    },
+    {
+      "name": "exact_duplicate_without_inference",
+      "result": {
+        "status": "already_ingested",
+        "source": "855736a95459b6e9f50bc94ec9ace4171a87cfef3c72b500c89a9ec7e0d67e89",
+        "pages": [
+          "orbit-team"
+        ],
+        "next": "Use --reassess to regenerate a plan for an unfinished ingestion"
+      }
+    },
+    {
+      "name": "retrieve_answerable_question",
+      "result": {
+        "route": "answer",
+        "evidence": [
+          {
+            "id": "orbit-team",
+            "revision": "739b96d94102004364e6c825650ed2d3e950f2553287b4751f14ee7f76808445",
+            "sources": [
+              "855736a95459b6e9f50bc94ec9ace4171a87cfef3c72b500c89a9ec7e0d67e89"
+            ],
+            "content": "# Orbit Team plan\nAs of 2026-09-20, the Orbit Team plan allows ten members and costs twenty dollars per month. Refunds are available within thirty days of purchase.\n",
+            "relevance": {
+              "type": "score",
+              "score": 3,
+              "legend": {
+                "0": "Unrelated to the requested facts.",
+                "1": "Related topic, but does not provide the requested facts.",
+                "2": "Directly supplies part of the requested facts.",
+                "3": "Directly supplies all requested facts."
+              },
+              "probabilities": {
+                "0": 0,
+                "1": 0,
+                "2": 0,
+                "3": 1
+              },
+              "confidence": 1
+            }
+          }
+        ],
+        "coverage": {
+          "total_pages": 1,
+          "selected_pages": 1,
+          "complete": true,
+          "method": "lexical overlap, full pages; no truncation"
+        },
+        "decisions": {
+          "p0": {
+            "type": "score",
+            "score": 3,
+            "legend": {
+              "0": "Unrelated to the requested facts.",
+              "1": "Related topic, but does not provide the requested facts.",
+              "2": "Directly supplies part of the requested facts.",
+              "3": "Directly supplies all requested facts."
+            },
+            "probabilities": {
+              "0": 0,
+              "1": 0,
+              "2": 0,
+              "3": 1
+            },
+            "confidence": 1
+          },
+          "sufficient": {
+            "type": "noul",
+            "noul": 0.94
+          }
+        },
+        "next": "Host agent synthesizes with page/source citations; retrieve_more means evidence is insufficient, not that the fact is false"
+      }
+    },
+    {
+      "name": "abstain_on_missing_evidence",
+      "result": {
+        "route": "retrieve_more",
+        "evidence": [
+          {
+            "id": "orbit-team",
+            "revision": "739b96d94102004364e6c825650ed2d3e950f2553287b4751f14ee7f76808445",
+            "sources": [
+              "855736a95459b6e9f50bc94ec9ace4171a87cfef3c72b500c89a9ec7e0d67e89"
+            ],
+            "content": "# Orbit Team plan\nAs of 2026-09-20, the Orbit Team plan allows ten members and costs twenty dollars per month. Refunds are available within thirty days of purchase.\n",
+            "relevance": {
+              "type": "score",
+              "score": 0.83,
+              "legend": {
+                "0": "Unrelated to the requested facts.",
+                "1": "Related topic, but does not provide the requested facts.",
+                "2": "Directly supplies part of the requested facts.",
+                "3": "Directly supplies all requested facts."
+              },
+              "probabilities": {
+                "0": 0.17,
+                "1": 0.83,
+                "2": 0,
+                "3": 0
+              },
+              "confidence": 0.83
+            }
+          }
+        ],
+        "coverage": {
+          "total_pages": 1,
+          "selected_pages": 1,
+          "complete": true,
+          "method": "lexical overlap, full pages; no truncation"
+        },
+        "decisions": {
+          "p0": {
+            "type": "score",
+            "score": 0.83,
+            "legend": {
+              "0": "Unrelated to the requested facts.",
+              "1": "Related topic, but does not provide the requested facts.",
+              "2": "Directly supplies part of the requested facts.",
+              "3": "Directly supplies all requested facts."
+            },
+            "probabilities": {
+              "0": 0.17,
+              "1": 0.83,
+              "2": 0,
+              "3": 0
+            },
+            "confidence": 0.83
+          },
+          "sufficient": {
+            "type": "noul",
+            "noul": 0.04
+          }
+        },
+        "next": "Host agent synthesizes with page/source citations; retrieve_more means evidence is insufficient, not that the fact is false"
+      }
+    },
+    {
+      "name": "reject_unsupported_draft",
+      "result": {
+        "status": "review",
+        "decisions": {
+          "injection": {
+            "type": "noul",
+            "noul": 0.03
+          },
+          "support": {
+            "type": "choice",
+            "choice": "contradicted",
+            "probabilities": {
+              "insufficient_evidence": 0,
+              "supported": 0,
+              "contradicted": 1
+            },
+            "confidence": 1
+          }
+        },
+        "note": "Probabilistic source-grounding check, not independent truth verification"
+      }
+    },
+    {
+      "name": "semantic_duplicate",
+      "result": {
+        "status": "planned",
+        "route": "duplicate",
+        "target": "orbit-team",
+        "source": "eff399de3ef98e62c4e8edb7d357a52f47039151cecab7c55699c17b6baac1f1",
+        "source_path": "sources/eff399de3ef98e62c4e8edb7d357a52f47039151cecab7c55699c17b6baac1f1.md",
+        "candidates": [
+          {
+            "id": "orbit-team",
+            "revision": "739b96d94102004364e6c825650ed2d3e950f2553287b4751f14ee7f76808445",
+            "sources": [
+              "855736a95459b6e9f50bc94ec9ace4171a87cfef3c72b500c89a9ec7e0d67e89"
+            ],
+            "content": "# Orbit Team plan\nAs of 2026-09-20, the Orbit Team plan allows ten members and costs twenty dollars per month. Refunds are available within thirty days of purchase.\n"
+          }
+        ],
+        "coverage": {
+          "total_pages": 1,
+          "selected_pages": 1,
+          "complete": true,
+          "method": "lexical overlap, full pages; no truncation"
+        },
+        "page_type": {
+          "type": "choice",
+          "choice": "entity",
+          "probabilities": {
+            "synthesis": 0,
+            "source": 0.06,
+            "concept": 0,
+            "entity": 0.94
+          },
+          "confidence": 0.92
+        },
+        "page_actions": [
+          {
+            "page": "orbit-team",
+            "action": "keep",
+            "decision": {
+              "type": "choice",
+              "choice": "keep",
+              "probabilities": {
+                "update": 0,
+                "keep": 1,
+                "link": 0,
+                "conflict": 0,
+                "review": 0
+              },
+              "confidence": 0.99
+            }
+          }
+        ],
+        "writer_role": "writer",
+        "decisions": {
+          "edit_p0": {
+            "type": "choice",
+            "choice": "keep",
+            "probabilities": {
+              "update": 0,
+              "keep": 1,
+              "link": 0,
+              "conflict": 0,
+              "review": 0
+            },
+            "confidence": 0.99
+          },
+          "injection": {
+            "type": "noul",
+            "noul": 0.02
+          },
+          "page_type": {
+            "type": "choice",
+            "choice": "entity",
+            "probabilities": {
+              "synthesis": 0,
+              "source": 0.06,
+              "concept": 0,
+              "entity": 0.94
+            },
+            "confidence": 0.92
+          },
+          "route": {
+            "type": "choice",
+            "choice": "duplicate",
+            "probabilities": {
+              "skip": 0,
+              "duplicate": 0.99,
+              "update": 0.01,
+              "create": 0,
+              "review": 0
+            },
+            "confidence": 0.99
+          },
+          "target": {
+            "type": "choice",
+            "choice": "p0",
+            "probabilities": {
+              "p0": 1,
+              "none": 0
+            },
+            "confidence": 1
+          }
+        },
+        "next": "The host agent drafts Markdown, then calls publish; this command never edits wiki pages"
+      }
+    },
+    {
+      "name": "untrusted_instructions_abstain",
+      "result": {
+        "status": "planned",
+        "route": "review",
+        "target": null,
+        "source": "e2e6df08594516c9008926f970bf6ed3a2f0252f96758123322aa4430076e83d",
+        "source_path": "sources/e2e6df08594516c9008926f970bf6ed3a2f0252f96758123322aa4430076e83d.md",
+        "candidates": [
+          {
+            "id": "orbit-team",
+            "revision": "739b96d94102004364e6c825650ed2d3e950f2553287b4751f14ee7f76808445",
+            "sources": [
+              "855736a95459b6e9f50bc94ec9ace4171a87cfef3c72b500c89a9ec7e0d67e89"
+            ],
+            "content": "# Orbit Team plan\nAs of 2026-09-20, the Orbit Team plan allows ten members and costs twenty dollars per month. Refunds are available within thirty days of purchase.\n"
+          }
+        ],
+        "coverage": {
+          "total_pages": 1,
+          "selected_pages": 1,
+          "complete": true,
+          "method": "lexical overlap, full pages; no truncation"
+        },
+        "page_type": {
+          "type": "choice",
+          "choice": "entity",
+          "probabilities": {
+            "source": 0.2,
+            "entity": 0.79,
+            "synthesis": 0,
+            "concept": 0.01
+          },
+          "confidence": 0.71
+        },
+        "page_actions": [
+          {
+            "page": "orbit-team",
+            "action": "keep",
+            "decision": {
+              "type": "choice",
+              "choice": "keep",
+              "probabilities": {
+                "conflict": 0.02,
+                "review": 0.01,
+                "keep": 0.94,
+                "link": 0.01,
+                "update": 0.02
+              },
+              "confidence": 0.93
+            }
+          }
+        ],
+        "writer_role": "reasoner",
+        "decisions": {
+          "edit_p0": {
+            "type": "choice",
+            "choice": "keep",
+            "probabilities": {
+              "conflict": 0.02,
+              "review": 0.01,
+              "keep": 0.94,
+              "link": 0.01,
+              "update": 0.02
+            },
+            "confidence": 0.93
+          },
+          "injection": {
+            "type": "noul",
+            "noul": 0.84
+          },
+          "page_type": {
+            "type": "choice",
+            "choice": "entity",
+            "probabilities": {
+              "source": 0.2,
+              "entity": 0.79,
+              "synthesis": 0,
+              "concept": 0.01
+            },
+            "confidence": 0.71
+          },
+          "route": {
+            "type": "choice",
+            "choice": "skip",
+            "probabilities": {
+              "duplicate": 0.03,
+              "create": 0.03,
+              "skip": 0.88,
+              "update": 0.03,
+              "review": 0.03
+            },
+            "confidence": 0.86
+          },
+          "target": {
+            "type": "choice",
+            "choice": "none",
+            "probabilities": {
+              "none": 0.99,
+              "p0": 0.01
+            },
+            "confidence": 0.98
+          }
+        },
+        "next": "The host agent drafts Markdown, then calls publish; this command never edits wiki pages"
+      }
+    },
+    {
+      "name": "pair_english",
+      "result": {
+        "findings": [
+          {
+            "type": "orphan",
+            "page": "faq",
+            "severity": "info"
+          },
+          {
+            "type": "orphan",
+            "page": "policy",
+            "severity": "info"
+          },
+          {
+            "type": "contradiction",
+            "pages": [
+              "faq",
+              "policy"
+            ],
+            "severity": "warning",
+            "decision": {
+              "type": "choice",
+              "choice": "contradiction",
+              "probabilities": {
+                "contradiction": 1,
+                "consistent": 0,
+                "right_superseded": 0,
+                "uncertain": 0,
+                "left_superseded": 0,
+                "unrelated": 0
+              },
+              "confidence": 1
+            }
+          }
+        ],
+        "coverage": {
+          "pages": 2,
+          "all_pairs": 1,
+          "candidate_pairs": 1,
+          "checked_pairs": 1,
+          "skipped_oversized_pairs": 0,
+          "complete_pairwise_check": true,
+          "method": "shared terms or explicit links, strongest pairs first"
+        }
+      }
+    },
+    {
+      "name": "pair_korean",
+      "result": {
+        "findings": [
+          {
+            "type": "orphan",
+            "page": "faq",
+            "severity": "info"
+          },
+          {
+            "type": "orphan",
+            "page": "policy",
+            "severity": "info"
+          },
+          {
+            "type": "contradiction",
+            "pages": [
+              "faq",
+              "policy"
+            ],
+            "severity": "warning",
+            "decision": {
+              "type": "choice",
+              "choice": "contradiction",
+              "probabilities": {
+                "contradiction": 1,
+                "uncertain": 0,
+                "consistent": 0,
+                "unrelated": 0,
+                "right_superseded": 0,
+                "left_superseded": 0
+              },
+              "confidence": 1
+            }
+          }
+        ],
+        "coverage": {
+          "pages": 2,
+          "all_pairs": 1,
+          "candidate_pairs": 1,
+          "checked_pairs": 1,
+          "skipped_oversized_pairs": 0,
+          "complete_pairwise_check": true,
+          "method": "shared terms or explicit links, strongest pairs first"
+        }
+      }
+    },
+    {
+      "name": "pair_consistent",
+      "result": {
+        "findings": [
+          {
+            "type": "orphan",
+            "page": "faq",
+            "severity": "info"
+          },
+          {
+            "type": "orphan",
+            "page": "policy",
+            "severity": "info"
+          }
+        ],
+        "coverage": {
+          "pages": 2,
+          "all_pairs": 1,
+          "candidate_pairs": 1,
+          "checked_pairs": 1,
+          "skipped_oversized_pairs": 0,
+          "complete_pairwise_check": true,
+          "method": "shared terms or explicit links, strongest pairs first"
+        }
+      }
+    }
+  ],
+  "scope": "Synthetic smoke checks, not a production accuracy benchmark; no user documents sent"
+}

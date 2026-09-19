@@ -1,0 +1,7 @@
+# Visual assets
+
+`hero.png` was generated with the built-in image-generation tool for this repository. It is a conceptual editorial illustration, not a product screenshot. `architecture.svg` is a deterministic, editable diagram of the implemented workflow.
+
+## Hero generation prompt
+
+Use case: ads-marketing / stylized-concept. Create one wide landscape premium editorial cover illustration for a GitHub software project named Jev Wiki, a hybrid AI knowledge system. Show a tactile, photorealistic miniature desktop knowledge studio: on the left a small neat stack of off-white paper source documents; center a translucent amber glass decision prism, splitting thin glowing amber paths toward a sculptural lavender writing tool and open notebook representing a writer LLM; right an orderly mint-green translucent archive of interlinked paper cards, with a small verification seal. Convey three distinct roles: code organizes, Jev decides, an LLM writes. Clean warm ivory backdrop, soft studio lighting, subtle realistic shadows, precise crafted objects, generous negative space, restrained amber/lavender/mint color accents. Wide panoramic composition suitable for a README cover, sophisticated developer-tool brand, no humans, no robot heads, no logos, no text, no fake metrics, no watermark. The image is conceptual illustration, not a screenshot or a runnable UI. It will be saved into the repository as a README hero.

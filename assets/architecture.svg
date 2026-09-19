@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="740" viewBox="0 0 1200 740" role="img" aria-labelledby="title desc">
+  <title id="title">Jev Wiki — code, decisions, and generation</title>
+  <desc id="desc">Three lanes separate deterministic code, Jev decisions, and the host writer LLM. Ingest plans move toward the writer, drafts return through verification to atomic publication, queries return cited answers, and lint sends ambiguous cases for reasoning.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8" fill="none" stroke="#65706c" stroke-width="1.5"/></marker>
+    <style>
+      text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill:#22312b }
+      .label { font-size:13px; font-weight:700; letter-spacing:2px }
+      .head { font-size:25px; font-weight:700 }
+      .body { font-size:18px }
+      .small { font-size:14px; fill:#57665d }
+      .arrow { fill:none; stroke:#65706c; stroke-width:2; marker-end:url(#arrow) }
+    </style>
+  </defs>
+  <rect width="1200" height="740" rx="24" fill="#f8f7f2"/>
+  <text x="48" y="49" class="label">THE SYSTEM, AT A GLANCE</text>
+  <text x="48" y="88" font-size="29" font-weight="700">Three roles. One growing knowledge base.</text>
+  <text x="48" y="117" class="small">The host LLM prepares complex sources before ingestion. Jev returns typed decisions, never prose.</text>
+  <rect x="48" y="148" width="330" height="514" rx="18" fill="#e5eee8"/>
+  <rect x="435" y="148" width="330" height="514" rx="18" fill="#fff0ce"/>
+  <rect x="822" y="148" width="330" height="514" rx="18" fill="#eee9f7"/>
+  <text x="72" y="182" class="label">DETERMINISTIC</text><text x="72" y="216" class="head">Code + Search</text>
+  <text x="459" y="182" class="label">BOUNDED JUDGMENT</text><text x="459" y="216" class="head">Jev 1.13</text>
+  <text x="846" y="182" class="label">TEXT GENERATION</text><text x="846" y="216" class="head">Your writer LLM</text>
+  <path d="M72 236 H354 M459 236 H741 M846 236 H1128" stroke="#d2d7cf"/>
+  <text x="72" y="268" class="label">01 / INGEST</text><text x="72" y="300" class="body">Hash source · shortlist pages</text>
+  <text x="459" y="284" class="body">Route · dedupe · plan edits</text><text x="459" y="310" class="small">Batched decisions for each page</text>
+  <text x="846" y="284" class="body">Extract · draft · synthesize</text><text x="846" y="310" class="small">New names and knowledge live here</text>
+  <path d="M382 291 H425 M770 291 H812" class="arrow"/>
+  <path d="M72 341 H354 M459 341 H741 M846 341 H1128" stroke="#d2d7cf"/>
+  <text x="72" y="373" class="label">02 / PUBLISH</text><text x="72" y="405" class="body">Revision check · atomic write</text>
+  <text x="459" y="389" class="body">Verify source support</text><text x="459" y="415" class="small">Unsupported or uncertain? Review.</text>
+  <text x="846" y="389" class="body">Propose a Markdown draft</text><text x="846" y="415" class="small">Reconcile conflicts when needed</text>
+  <path d="M817 396 H775 M430 396 H388" class="arrow"/>
+  <path d="M72 446 H354 M459 446 H741 M846 446 H1128" stroke="#d2d7cf"/>
+  <text x="72" y="478" class="label">03 / QUERY</text><text x="72" y="510" class="body">Retrieve bounded evidence</text>
+  <text x="459" y="494" class="body">Rank · check sufficiency</text><text x="459" y="520" class="small">Answer or retrieve more</text>
+  <text x="846" y="494" class="body">Write a cited answer</text><text x="846" y="520" class="small">Verify material claims before sharing</text>
+  <path d="M382 501 H425 M770 501 H812" class="arrow"/>
+  <path d="M72 551 H354 M459 551 H741 M846 551 H1128" stroke="#d2d7cf"/>
+  <text x="72" y="583" class="label">04 / LINT</text><text x="72" y="615" class="body">Links · sources · integrity</text>
+  <text x="459" y="599" class="body">Conflicts · stale · duplicates</text><text x="459" y="625" class="small">Probabilities, not automatic edits</text>
+  <text x="846" y="599" class="body">Explain or repair on request</text><text x="846" y="625" class="small">Use deeper reasoning for ambiguity</text>
+  <path d="M382 606 H425 M770 606 H812" class="arrow"/>
+  <text x="48" y="701" class="label">MARKDOWN IS THE SOURCE OF RECORD</text>
+  <text x="1150" y="701" text-anchor="end" class="small">Immutable sources · versioned pages · explicit coverage</text>
+</svg>
