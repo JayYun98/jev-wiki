@@ -142,106 +142,133 @@ wiki/        readable Markdown     source-backed pages
 
 ## Estimated cost: 1,000 documents across five domains
 
-**Planning estimate, not a benchmark.** USD API inference only, including the writer LLM. Start with **1,000 documents total** (200/domain); add **100 / 500 / 1,000 total per month** (20 / 100 / 200 per domain). Use five separately selected vaults, with no automatic cross-domain replication.
+**Two alternatives: the LLM alone, or that same LLM + Jev.** Both read existing content to decide where to split, revise, or update pages; both include extraction, writing, and verification. This estimate now assumes **a full model-based rescan on every arrival**, rather than only a retrieved shortlist.
+
+![Estimated full-domain rescan costs: LLM only versus the same LLM plus Jev, including corpus growth.](assets/cost-comparison.png)
+
+**Base case:** 1,000 initial documents total, five balanced domains, 2,000 retained tokens/document. Each new document rereads its entire domain, including earlier arrivals in the same month. Monthly additions are totals across all five domains. Estimates are USD API token charges, not observed bills.
+
+| Workload | DeepSeek only | DeepSeek + Jev | Qwen only | Qwen + Jev |
+| :--- | ---: | ---: | ---: | ---: |
+| Initial 1,000 | $34.96 | $16.91 | $39.64 | $17.07 |
+| Month 1 +100 | $6.80 | $3.19 | $7.74 | $3.21 |
+| Month 12 +100 | $13.40 | $6.20 | $15.28 | $6.21 |
+| Month 1 +500 | $39.98 | $18.69 | $45.54 | $18.77 |
+| Month 12 +500 | $205.03 | $93.77 | $234.19 | $93.85 |
+| Month 1 +1,000 | $94.97 | $44.21 | $108.23 | $44.37 |
+| Month 12 +1,000 | $755.16 | $344.51 | $862.84 | $344.67 |
+
+Month 12 is the cost of that month alone after eleven months of accumulation. **Monthly cost increases even when monthly arrivals stay constant.** Bootstrap is separate and rereads the growing initial corpus as the first 1,000 documents are ingested sequentially.
 
 ```text
-                       SAME EXTRACTION + WRITING
-                       13,000 input / 2,000 output tokens per document
-                                      │
-                 ┌────────────────────┴────────────────────┐
-                 ▼                                         ▼
-       LLM-led wiki                              Jev Wiki
-       Same LLM plans + verifies                 Jev plans + verifies
-       +13,500 input / 750 output                +13,500 input / 0 output
-                 │                                         │
-       LLM semantic lint                         Jev semantic lint
+New document
+    │
+    ├─ LLM only:     read whole domain in batches → decide edits → LLM writes/checks
+    └─ LLM + Jev:    Jev reads whole domain in batches → LLM writes → Jev checks
+
+More retained documents → more repeated input → increasing cost per new document
 ```
 
-| Ingestion + bounded maintenance | DeepSeek V4.1 Flash: LLM-led | DeepSeek + Jev | Qwen3.8 Flash: LLM-led | Qwen + Jev |
-| :--- | ---: | ---: | ---: | ---: |
-| Initial 1,000 documents, once | $4.88 | **$3.30** | $5.27 | **$3.46** |
-| +100 documents / month | $0.51 | **$0.34** | $0.55 | **$0.35** |
-| +500 documents / month | $2.46 | **$1.66** | $2.66 | **$1.74** |
-| +1,000 documents / month | $4.90 | **$3.30** | $5.30 | **$3.46** |
-| Year 1: initial + 12 × 100 | $11.03 | **$7.34** | $11.93 | **$7.69** |
-| Year 1: initial + 12 × 500 | $34.43 | **$23.16** | $37.21 | **$24.28** |
-| Year 1: initial + 12 × 1,000 | $63.68 | **$42.94** | $68.82 | **$45.02** |
-
-Under these assumptions, replacing separate decision calls saves roughly **32–36%**, but only **$0.18–$1.83/month** at these volumes. A fused writer-only workflow can be cheaper than adding Jev; see the counterexample below. These user-selected models are comparison choices, not a claim about LLM Wiki adoption or equivalent quality.
-
 <details>
-<summary><strong>Prices, workload assumptions, formulas, and sensitivity</strong></summary>
+<summary><strong>Year-one totals, all-domain scans, enterprise scale, and assumptions</strong></summary>
 
-### OpenRouter price snapshot — September 20, 2026 (KST)
+### First year: bootstrap + twelve growing months
 
-| Model / selected provider | Input / 1M tokens | Output / 1M tokens |
+| Workload | DeepSeek only | DeepSeek + Jev | Qwen only | Qwen + Jev |
+| :--- | ---: | ---: | ---: | ---: |
+| Year 1 +100/mo | $156.12 | $73.23 | $177.75 | $73.58 |
+| Year 1 +500/mo | $1,505.03 | $691.64 | $1,718.03 | $692.76 |
+| Year 1 +1,000/mo | $5,135.70 | $2,349.17 | $5,866.03 | $2,351.25 |
+
+### If every arrival rereads all five domains
+
+The base case assumes domain routing is already known. Cross-domain review reads the entire retained corpus instead:
+
+| Workload | DeepSeek only | DeepSeek + Jev | Qwen only | Qwen + Jev |
+| :--- | ---: | ---: | ---: | ---: |
+| Initial 1,000 | $154.99 | $71.51 | $176.83 | $71.67 |
+| Month 1 +100 | $32.00 | $14.66 | $36.55 | $14.67 |
+| Month 1 +500 | $190.02 | $86.94 | $217.04 | $87.02 |
+| Month 1 +1,000 | $455.07 | $208.01 | $519.83 | $208.17 |
+| Month 12 +1,000 | $3,755.99 | $1,709.51 | $4,292.83 | $1,709.67 |
+
+### Enterprise: full rescanning becomes the bottleneck
+
+These are separate hypothetical starting corpora, still divided into five domains. Each row shows **one month's** cost, including growth during that month, excluding bootstrap. They are workload extrapolations, not validated enterprise capacity or a deployment recommendation.
+
+| Existing documents → new this month | DeepSeek only | DeepSeek + Jev | Qwen only | Qwen + Jev |
+| :--- | ---: | ---: | ---: | ---: |
+| 10,000 → +10,000 | $9,051.95 | $4,127.55 | $10,343.32 | $4,129.15 |
+| 100,000 → +10,000 | $63,066.95 | $28,697.55 | $72,083.32 | $28,699.15 |
+| 100,000 → +100,000 | $900,744.54 | $409,825.50 | $1,029,533.25 | $409,841.50 |
+
+At 100,000 existing documents plus 10,000 arrivals, the chosen batching policy requires **105 million Jev scan requests in one month**. Rate limits, elapsed time, orchestration, and failure handling make this unsuitable as a practical architecture, regardless of token savings. The current single-owner CLI is not an enterprise service.
+
+For enterprise use, full **local index scans** need not become full **model input scans**. Incremental indexing, changed-claim tracking, document dependencies, and retrieval can identify affected pages before inference. Global reviews can run separately at a controlled cadence. Jev reduces decision-token cost; it does not remove the quadratic growth of repeated full scans. Measure retrieval misses and maintenance coverage before reducing the scope.
+
+### Current prices and selected providers
+
+OpenRouter endpoint snapshot, **September 20, 2026 KST**, USD per million tokens:
+
+| Model / provider | Input | Output |
 | :--- | ---: | ---: |
 | [DeepSeek V4.1 Flash](https://openrouter.ai/deepseek/deepseek-v4.1-flash) / Relace | $0.13 | $0.52 |
 | [Qwen3.8 Flash](https://openrouter.ai/qwen/qwen3.8-flash) / Alibaba | $0.15 | $0.47 |
 | [Jev 1.13](https://openrouter.ai/typesafe/jev-1.13) / TypeSafe | $0.042 | $0.00 |
 
-These are paired input/output prices from individual endpoints, not a blend of the cheapest rate for each token type. DeepSeek uses the **V4.1** alias, not V4 Flash 0423 or 0731. Prices were read from the public endpoint API; [the saved snapshot](references/cost-pricing.json) includes exact endpoint names, retrieval time, and source URLs. No paid inference was needed.
+[Saved API pricing snapshot](references/cost-pricing.json) includes endpoint names, retrieval time, and public source URLs. Input/output rates come from the same provider. No cache discounts, subscription pricing, or assumed model-quality equivalence. Routing, provider pricing, and promotions may change; the host writer is not pinned by this skill. These are user-selected comparison models, not a measured LLM Wiki popularity ranking.
 
-The estimate assumes requests use these providers and uncached, short-context rates. This skill does not configure or pin the host writer provider. Automatic routing, failover, promotions, time-based pricing, and alias changes can change the bill. Cache discounts are excluded for both approaches.
+### Token and batching assumptions
 
-### Per-document workload
+| Work per new document | Input tokens | Output tokens | LLM only | Same LLM + Jev |
+| :--- | ---: | ---: | :--- | :--- |
+| Extract + draft/revise three pages | 13,000 total | 2,000 total | LLM | Same LLM |
+| Consolidate plan + verify three drafts | 13,500 total | 750 total | LLM | Jev, no billed output |
+| Read **every retained document in scope** | 2,000 per retained document | See scan batch | LLM | Jev |
+| Each scan batch: repeat new source + instructions | 2,500 extra | 300 decision tokens | LLM | Jev, no billed output |
 
-Assume a focused **2,000-token text source**, six candidate excerpts/pages averaging 250 tokens, and **three 500-token page drafts** per source. These are synthetic sizing assumptions, not averages measured on 1,000 real documents. Count repeated source/context tokens on each call.
+Each source contributes **2,000 net retained tokens** to the maintained corpus; this is an explicit proxy for the aggregate pages that need rereading, not a claim that raw sources and wiki pages are identical. Three page edits do not necessarily create three new pages. If retention, duplication, or page fan-out changes, replace this assumption. Edits may include splitting or consolidation, but only three generated page drafts are budgeted per arrival. More rewrites require extra generation.
 
-| Stage | Calls / document | Input / call | Output / call | LLM-led owner | Hybrid owner |
-| :--- | ---: | ---: | ---: | :--- | :--- |
-| Extract entities and claims | 1 | 2,500 | 500 | Writer LLM | Same writer LLM |
-| Plan updates against candidates | 1 | 4,500 | 300 | Writer LLM | Jev; no output-token charge |
-| Draft or revise a page | 3 | 3,500 | 500 | Writer LLM | Same writer LLM |
-| Verify each draft against sources | 3 | 3,000 | 150 | Writer LLM | Jev; no output-token charge |
-| **Total writer generation** | **4** | **13,000 total** | **2,000 total** | Same | Same |
-| **Total replaceable decisions** | **4** | **13,500 total** | **750 total** | LLM tokens | Jev input only |
+- **LLM-only scan batch:** 12 retained documents, up to 26,500 input tokens including the repeated new source. The LLM may batch more efficiently; this is a chosen working-context policy, not its maximum context window.
+- **Jev scan batch:** 2 retained documents, up to 6,500 input tokens including the new source. This conservatively targets the current 28 KB serialized-payload limit for compact English text. Token-to-byte ratios and question overhead must be checked; some inputs need smaller batches.
+- The same old content is read by both approaches. Jev pays more repeated-source overhead because its batches are smaller. Generation and verification budgets are identical between approaches.
+- All documents are distinct; no cache hits, duplicate skips, or early exits. Domains receive round-robin arrivals and no deletions. Old content is reviewed for changes on each arrival.
+- Multi-batch selection/consolidation is **hypothetical**, not implemented in this repository. Current ingest sends only a retrieved shortlist. The fixed consolidation allowance assumes few relevant changes; many affected pages or multi-level result aggregation increase cost further.
+- No extra periodic lint is added: each arrival already triggers a full old-versus-new review. This does not compare every old page against every other old page, or guarantee whole-wiki consistency.
 
-Input allowances include instructions and supplied evidence. LLM output allowances include any billed reasoning tokens; a reasoning-heavy run needs a larger allowance. Identical decision input counts are a comparison assumption, not a claim that model tokenizers agree.
+**The earlier few-dollar estimate applied only to bounded retrieval. It did not include these full rescans and is not the headline estimate here.** A local lexical scan of all files has CPU/I/O cost but no API token charge; sending their contents to either model does.
 
-Use one bounded semantic lint pass after bootstrap: **5 domains × 4 pairs = 20 pairs**. Subsequently use **4 passes/month × 5 domains × 4 pairs = 80 pairs/month**, with 2,000 input tokens per pair and 100 output tokens for the LLM baseline. Jev output has no token charge. This is not exhaustive wiki lint; fixed top pairs may be revisited, and cache hits are conservatively ignored.
+### Formula and reproduction
 
-Five domains partition the corpus; they do not multiply document charges by five. The host chooses the vault. Cross-domain synthesis, full-corpus rescans, and automatic domain routing are not included. Candidate and page sizes stay bounded as the corpus grows. The bootstrap uses the same steady-state per-document allowance even while vaults are initially small.
-
-### Formula and reproducibility
-
-Let `p` and `q` be writer input/output USD per million tokens, `j = 0.042`, `N` documents, and `L` checked lint pairs:
+For an arrival with `n` existing documents in scope, let `B` be the batch size:
 
 ```text
-Shared writing = N × (13,000p + 2,000q) / 1,000,000
-LLM-led        = Shared writing
-                 + N × (13,500p + 750q) / 1,000,000
-                 + L × (2,000p + 100q) / 1,000,000
-Jev hybrid     = Shared writing
-                 + (N × 13,500 + L × 2,000)j / 1,000,000
+scan_calls(n, B) = ceil(n / B)
+scan_input(n, B) = 2,000 × n + 2,500 × scan_calls(n, B)
 
-Initial = C(N=1,000, L=20)
-Monthly = C(N=100 or 500 or 1,000, L=80)
-Year 1  = Initial + 12 × Monthly
+LLM-only cost / arrival:
+  [(26,500 + scan_input(n, 12)) × input_price
+   + (2,750 + 300 × scan_calls(n, 12)) × output_price] / 1,000,000
+
+Same LLM + Jev cost / arrival:
+  [13,000 × LLM_input_price + 2,000 × LLM_output_price
+   + (13,500 + scan_input(n, 2)) × Jev_input_price] / 1,000,000
+
+Domain scan: n = floor(total existing documents / 5)
+All-domain scan: n = total existing documents
+Sum over each arrival; increment the corpus after every arrival.
+Month m starts with 1,000 + (m - 1) × monthly_arrivals documents.
+Year 1 = bootstrap + sum(months 1 through 12), not 12 × month 1.
 ```
 
 ```bash
-python3 scripts/estimate_cost.py  # offline; saved prices; no API calls
+python3 scripts/estimate_cost.py          # offline calculation + arithmetic checks
+python3 scripts/estimate_cost.py --chart  # optional: requires matplotlib for chart build
 ```
 
-Calculations use unrounded values; display rounds to cents. Monthly totals exclude the initial build. Year-one totals include it once.
+The runtime remains standard-library-only. The chart is a documentation artifact. Display rounds to cents after calculating totals.
 
-### Sensitivity and a cheaper baseline
-
-At **+500 documents/month**, changing aggregate token usage gives:
-
-| Token workload | DeepSeek LLM-led / hybrid | Qwen LLM-led / hybrid |
-| :--- | ---: | ---: |
-| 0.5× | $1.23 / $0.83 | $1.33 / $0.87 |
-| 1× | $2.46 / $1.66 | $2.66 / $1.74 |
-| 2× | $4.92 / $3.31 | $5.32 / $3.47 |
-| 5× | $12.31 / $8.28 | $13.31 / $8.68 |
-
-Multipliers apply to all billed input/output volume, not to document count. Large inputs must be split across requests to honor the current 16 KB source/draft and 28 KB decision-payload limits. A 2,000-token source is not guaranteed to fit 16 KB in every language. Splitting, larger page fan-out, retained multi-source evidence, and expanded context can change call counts beyond this simple scaling model.
-
-If an efficient LLM agent **folds planning and review into writing** with no additional billed tokens and omits separate lint calls, its optimistic writer-only cost at +500/month is **$1.37 DeepSeek / $1.45 Qwen**, below the hybrid's **$1.66 / $1.74**. This counterexample has fewer independent checks, but shows why savings are not inherent to Jev. Cached LLM inputs or different review policies may also narrow or reverse the difference. The main table compares explicitly separated, equivalent stage budgets; it is not a measured cost of Karpathy's pattern.
-
-Excluded: user queries/answers, extra conflict-resolution passes, retries, OCR/vision, embeddings/hosted search, taxes, credit-purchase fees, hosting, and agent subscription charges. This estimates direct OpenRouter API token costs, not a subscription bill. Writer quality and Jev decisions have not been benchmarked against each other on this corpus.
+Input sizes, retention, batching, and output allowances are estimates, not measurements. Larger LLM batches or cached inputs may narrow or reverse the advantage; more reviews and rewrites may increase both bills. Reasoning tokens must fit the output allowance or be added separately. Excludes user queries/answers, extra conflict-resolution passes, retries, OCR/vision, embeddings/search services, infrastructure, taxes, credit-purchase fees, and agent subscriptions. No paid inference was performed to make this estimate.
 
 </details>
 
