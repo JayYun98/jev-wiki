@@ -9,7 +9,7 @@
 
 </div>
 
-![Sources flow through a decision prism and a writer into a connected knowledge archive. Concept illustration, not a product screenshot.](assets/hero.png)
+![Jev Wiki: sources flow through Jev decisions and a host LLM into an interconnected Markdown wiki.](assets/hero.png)
 
 > **Jev + a writer LLM + deterministic code.**
 > Jev cannot write summaries or answers. Your host agent supplies the LLM.
