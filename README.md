@@ -5,11 +5,11 @@
 
 **A small wiki skill. A clear division of intelligence.**
 
-[Get started](#get-started) · [Architecture](#architecture) · [Technical design](references/technical-design.md) · [Operations](references/operations.md) · [Evidence](references/evaluation.json)
+[Get started](#get-started) · [Architecture](#architecture) · [Technical design](references/technical-design.md) · [Operations](references/operations.md) · [Estimated cost](#estimated-cost) · [Evidence](references/evaluation.json)
 
 </div>
 
-![Sources flow through a decision prism and a writer into a connected knowledge archive. Concept illustration, not a product screenshot.](assets/hero.png)
+![Jev Wiki: sources flow through Jev decisions and a host LLM into an interconnected Markdown wiki.](assets/hero.png)
 
 > **Jev + a writer LLM + deterministic code.**
 > Jev cannot write summaries or answers. Your host agent supplies the LLM.
@@ -139,6 +139,16 @@ wiki/        readable Markdown     source-backed pages
 ```
 
 **No server. No database. No runtime dependencies.**
+
+## Estimated cost
+
+**Qwen3.8 Flash alone vs Qwen3.8 Flash + Jev.** Both include extraction, writing, and verification, assuming a full model-based rescan of the relevant domain on every arrival.
+
+Start with **1,000 documents across five domains**, then add **100 / 500 / 1,000 per month**. The chart shows monthly and cumulative API costs over the first year.
+
+![Qwen alone versus Qwen plus Jev: monthly and cumulative estimated costs over twelve months.](assets/cost-comparison.png)
+
+<sub>Illustrative estimate: 2,000 retained tokens/document; OpenRouter prices checked September 20, 2026. Excludes queries, caching discounts, and infrastructure. Full rescanning is a costing scenario, not current runtime behavior.</sub>
 
 ## Show the work
 
