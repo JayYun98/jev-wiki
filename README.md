@@ -100,7 +100,7 @@ LLM discovers knowledge  →  Jev selects the next action  →  Code commits Mar
 **Python 3.11+ · macOS / Linux · OpenRouter key · a skill-capable coding agent**
 
 ```bash
-# Private repository: access required. No pip install.
+# Clone the repository; no pip install is required.
 gh repo clone JayYun98/jev-wiki ~/.codex/skills/jev-wiki
 
 # Use OPENROUTER_API_KEY or the existing ~/.codex/global.env.
@@ -165,4 +165,4 @@ English + Korean contradictions, semantic duplicates, evidence gates, and absten
 
 ---
 
-<sub>Independent implementation inspired by the LLM Wiki pattern. Not affiliated with Jev, TypeSafe, OpenRouter, or other wiki projects. Private repository.</sub>
+<sub>Independent implementation inspired by the LLM Wiki pattern. Not affiliated with Jev, TypeSafe, OpenRouter, or other wiki projects.</sub>
